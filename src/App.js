@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getUsers, createUser, updateUser, deleteUser
 } from "./services/api"
@@ -13,8 +13,12 @@ function App() {
     email: ''
   })
   const [editingId, setEditingId] = useState(null);
-  const [inputValue, setInputValue] = useState('')
   const [isEditingInput, setEditingInput] = useState(false);
+  const [editingForm, setEditingForm] = useState({
+    name: '',
+    email: ''
+  })
+
 
 
   const fetchUsers = async () => {
@@ -28,14 +32,9 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingId) {
-      await updateUser(editingId, form);
-      setEditingId(null)
-    } else {
-      await createUser(form)
-    }
-    setForm({ name: '', email: '' })
+    await createUser(form)
 
+    setForm({ name: '', email: '' })
     fetchUsers();
   }
 
@@ -43,10 +42,9 @@ function App() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleEditClick = (id) => {
+  const handleEdit = (id) => {
     setEditingId(id)
     setEditingInput(true)
-    
 
   }
 
@@ -55,6 +53,21 @@ function App() {
     fetchUsers();
   }
 
+  // editing field
+  const handleEditChange = (e) => {
+    setEditingForm({ ...editingForm, [e.target.name]: e.target.value })
+  }
+
+  const handleSave = async (e, u) => {
+    e.preventDefault();
+    console.log(editingId)
+    await updateUser(u.id, editingForm)
+    setEditingId(null);
+    setEditingInput(false)
+    setEditingForm({ name: u.name, email: u.email })
+    fetchUsers();
+
+  }
 
   return (
 
@@ -64,19 +77,41 @@ function App() {
         <input name='name' value={form.name} onChange={handleChange} placeholder='Enter your name' required />
         <input name='email' value={form.email} onChange={handleChange} placeholder='Enter your email' required />
         <button type='submit'>Add User </button>
+
+        {/* create table for users */}
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>EMAIL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>John</td>
+              <td>john@gmail.com</td>
+            </tr>
+          </tbody>
+        </table>
+
         <ul>
           {users.map((user, index) => {
             return <li key={user.id}>
+
+              <strong>{user.id}</strong>&nbsp; &nbsp;
+
               {isEditingInput && editingId === user.id ?
-                <>
-                  <input name='name' value={user.name} onChange={handleChange} />
-                  <input name='email' value={form.email} onChange={(e) => setInputValue(e.target.value)} />
-                  <button onClick={handleSubmit}>Save</button>
+                <> {/** creating handleSave to save form field */}
+                  <input name='name' value={editingForm.name} onChange={handleEditChange} />
+                  <input name='email' value={editingForm.email} onChange={handleEditChange} />
+                  <button onClick={(e) => handleSave(e, user)}>Save</button>
                 </> :
 
                 <span>{user.name} ({user.email})</span>
-              }
-              <button onClick={() => handleEditClick(user.id)}>Edit</button>
+              }&nbsp;
+              <button onClick={() => handleEdit(user.id)}>Edit</button>
               <button onClick={() => handleDelete(user.id)} >Delete</button>
             </li>
 
