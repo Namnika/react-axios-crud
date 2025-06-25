@@ -95,14 +95,15 @@ function App() {
 
               <td className=' rounded-md '>{isEditingInput && editingId === user.id ?
                 <> {/** creating handleSave to save form field */}
-                  <input name='name' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={editingForm.name} onChange={handleEditChange} />
-                  <input name='email' value={editingForm.email} onChange={handleEditChange} />
-                  <button onClick={(e) => handleSave(e, user)}>Save</button>
+                  <input name='name' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={editingForm.name} onChange={handleEditChange} />
+                  
+                  <input name='email' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={editingForm.email} onChange={handleEditChange} />
+                  <button style={{ padding: '3px 20px' }} className=' border-1 hover:bg-slate-600 cursor-pointer rounded bg-slate-700 text-white border-slate-700' onClick={(e) => handleSave(e, user)}>Save</button>
                 </> :
 
-                <span>{user.name} </span>}</td>
+                <span style={{textTransform: 'capitalize'}}>{user.name} </span>}</td>
               <td className=' rounded-md '><span>({user.email})</span></td>
-              <td><button style={{ padding: '3px 20px' }} className=' border-1 cursor-pointer rounded border-slate-700' onClick={() => handleEdit(user.id)}>Edit</button>&nbsp;
+              <td><button style={{ padding: '3px 20px' }} className=' border-1 cursor-pointer rounded border-slate-700 mr-2' onClick={() => handleEdit(user.id)}>Edit</button>
                 <button style={{ padding: '3px 20px' }} className=' border-1 hover:bg-slate-600 cursor-pointer rounded bg-slate-700 text-white border-slate-700' onClick={() => handleDelete(user.id)} >Delete</button></td>
             </tr>
           })}
