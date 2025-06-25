@@ -78,45 +78,33 @@ function App() {
         <input name='email' value={form.email} onChange={handleChange} placeholder='Enter your email' required />
         <button type='submit'>Add User </button>
 
-        {/* create table for users */}
+
         <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>John</td>
-              <td>john@gmail.com</td>
-            </tr>
-          </tbody>
-        </table>
+          <tr >
+            <th>ID</th>
+            <th>NAME</th>
+            <th>EMAIL</th>
+            <th>EDIT</th>
+          </tr>
 
-        <ul>
           {users.map((user, index) => {
-            return <li key={user.id}>
+            return <tr key={user.id}>
+              <td><strong>{user.id}</strong></td>
 
-              <strong>{user.id}</strong>&nbsp; &nbsp;
-
-              {isEditingInput && editingId === user.id ?
+              <td>{isEditingInput && editingId === user.id ?
                 <> {/** creating handleSave to save form field */}
                   <input name='name' value={editingForm.name} onChange={handleEditChange} />
                   <input name='email' value={editingForm.email} onChange={handleEditChange} />
                   <button onClick={(e) => handleSave(e, user)}>Save</button>
                 </> :
 
-                <span>{user.name} ({user.email})</span>
-              }&nbsp;
-              <button onClick={() => handleEdit(user.id)}>Edit</button>
+                <span>{user.name} </span>}</td>
+              <td><span>({user.email})</span></td>
+              <button onClick={() => handleEdit(user.id)}>Edit</button>&nbsp;
               <button onClick={() => handleDelete(user.id)} >Delete</button>
-            </li>
-
+            </tr>
           })}
-        </ul>
+        </table>
       </form>
     </div>
   );
