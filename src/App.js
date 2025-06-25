@@ -71,37 +71,39 @@ function App() {
 
   return (
 
-    <div className="App">
-      <h2>User Management</h2>
+    <div className="App ">
+      <h2 className='text-2xl font-semibold tracking-wider uppercase underline'>User Management</h2>
       <form onSubmit={handleSubmit} >
-        <input name='name' value={form.name} onChange={handleChange} placeholder='Enter your name' required />
-        <input name='email' value={form.email} onChange={handleChange} placeholder='Enter your email' required />
-        <button type='submit'>Add User </button>
+        <div className='grid gap-6 mb-6 md:grid-cols-3'>
+          <input name='name' value={form.name} onChange={handleChange} className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Enter your name' required />
+          <input name='email' value={form.email} onChange={handleChange} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Enter your email' required />
 
+          <button type='submit' style={{ padding: '3px 20px' }} className='font-semibold uppercase border-1 hover:bg-slate-600  cursor-pointer rounded bg-slate-700 text-white border-slate-700'>Add User </button>
+        </div>
 
-        <table>
-          <tr >
-            <th>ID</th>
-            <th>NAME</th>
-            <th>EMAIL</th>
-            <th>EDIT</th>
+        <table className='border-separate rounded '>
+          <tr className='shadow-lg'>
+            <th className='border-r rounded border-gray-300 dark:border-gray-600'>ID</th>
+            <th className='border-r rounded border-gray-300 dark:border-gray-700'>NAME</th>
+            <th className='border-r rounded border-gray-300 dark:border-gray-700'>EMAIL</th>
+            <th className='border-r rounded border-gray-300 dark:border-gray-700'>EDIT</th>
           </tr>
 
           {users.map((user, index) => {
-            return <tr key={user.id}>
-              <td><strong>{user.id}</strong></td>
+            return <tr className='shadow-lg bg-white hover:bg-gray-100/50 cursor-pointer odd:bg-gray-100' key={user.id}>
+              <td className=' rounded-md '><strong>{user.id}</strong></td>
 
-              <td>{isEditingInput && editingId === user.id ?
+              <td className=' rounded-md '>{isEditingInput && editingId === user.id ?
                 <> {/** creating handleSave to save form field */}
-                  <input name='name' value={editingForm.name} onChange={handleEditChange} />
+                  <input name='name' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={editingForm.name} onChange={handleEditChange} />
                   <input name='email' value={editingForm.email} onChange={handleEditChange} />
                   <button onClick={(e) => handleSave(e, user)}>Save</button>
                 </> :
 
                 <span>{user.name} </span>}</td>
-              <td><span>({user.email})</span></td>
-              <button onClick={() => handleEdit(user.id)}>Edit</button>&nbsp;
-              <button onClick={() => handleDelete(user.id)} >Delete</button>
+              <td className=' rounded-md '><span>({user.email})</span></td>
+              <td><button style={{ padding: '3px 20px' }} className=' border-1 cursor-pointer rounded border-slate-700' onClick={() => handleEdit(user.id)}>Edit</button>&nbsp;
+                <button style={{ padding: '3px 20px' }} className=' border-1 hover:bg-slate-600 cursor-pointer rounded bg-slate-700 text-white border-slate-700' onClick={() => handleDelete(user.id)} >Delete</button></td>
             </tr>
           })}
         </table>
